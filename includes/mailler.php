@@ -5,7 +5,7 @@ require '../vendor/autoload.php';
 
 
 function mailling($recipient, $subject, $body){
-  $emfoot = '<div style="margin-left: 50px;><p>Thank you. <br/><span style="background-color: #245639;color: white;font-size:20px">ICEⒸ</span><span style="color:#245639;font-size:20px"> Medical Card</span></p></div>';
+  $emfoot = '<div style="margin-left: 50px;"><p>Thank you. <br/><span style="background-color: #245639;color: white;font-size:20px">ICEⒸ</span><span style="color:#245639;font-size:20px"> Medical Card</span></p></div>';
   $mail = new PHPMailer(true);                             
       try {
           //Server settings
