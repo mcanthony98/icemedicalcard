@@ -1,7 +1,8 @@
 <?php
     session_start();
 	require "../includes/connect.php";
-	date_default_timezone_set("Africa/Nairobi");
+    include "../includes/mailler.php";
+	date_default_timezone_set("Europe/London");
     $date = date("m/d/Y g:iA");
     $ddate = date("Y_m_d_H_i_s");
 
@@ -21,7 +22,10 @@ if(isset($_POST['create-card'])){
     $ec2name = mysqli_real_escape_string($conn, $_POST["ec2name"]);
     $ec2phone = mysqli_real_escape_string($conn, $_POST["ec2phone"]);
 
-    $uqry = "INSERT INTO user (fname, lname, email, dob, date_created) VALUES ('$fname', '$lname', '$email', '$dob', '$date')";
+    $set = "0123456789";
+    $pin = substr(str_shuffle($set), 0, 4);
+
+    $uqry = "INSERT INTO user (fname, lname, email, dob, pin, date_created) VALUES ('$fname', '$lname', '$email', '$dob', '$pin', '$date')";
     $ures = $conn->query($uqry);
     $user_id = $conn->insert_id;
 
@@ -30,6 +34,23 @@ if(isset($_POST['create-card'])){
 
     $eqry = "INSERT INTO emergency_contact (user_id, name, phone) VALUES ('$user_id', '$ec1name', '$ec1phone'), ('$user_id', '$ec2name', '$ec2phone')";
     $eres = $conn->query($eqry);
+
+    $subject = "Thanks for registering your ICE Medical Card";
+    $body = '
+    <div style="margin-left: 50px;">
+        <h2 >Thanks for registering your ICE Medical Card</h2>
+        <p>Your details have been submitted to ICE Medical Card. </p>
+    
+        <p>To check your details later click the link below: </p>
+        <p><a href="https://ice.finytex.com/login.php">Check My Details</a></p>
+        <p>
+            Email: '.$email.'  <br>
+            Pin: '.$pin.'
+        </p>
+    </div>
+    ';
+
+    mailling($email, $subject, $body);
 
     $_SESSION["card_create_success"] = "";
 
