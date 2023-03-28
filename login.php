@@ -1,4 +1,6 @@
-
+<?php 
+session_start();
+?>
 <!doctype html>
 <html lang="en">
   <head>
@@ -26,22 +28,23 @@
     </div>
   </div>
   <div class="container row">
-    <form action="processes/processes.php" method="POST">
+    <form action="processes/processes.php" method="POST" id="loginForm">
     <div class="offset-sm-5 col-sm-4 row mb-3">
             <div class="col-12 mt-3 mb-2 text-center"><h3>Welcome Back</h3><p>Enter your details to proceed</p></p></div>
             
+            <div class="col-12 mb-2 text-center text-danger"><?php if(isset($_SESSION['error'])){ echo $_SESSION['error']; unset($_SESSION['error']);}?></div>
             <div class="form-group col-sm-12">
                 <label><strong>Email</strong></label>
                 <input class="form-control" placeholder="Enter your email" name="email" required/>
             </div>
             <div class="form-group col-sm-12">
                 <label><strong>Pin</strong><br><small class="text-muted"> (Provided in the email sent when creating your card)</small></label>
-                <input type="number" maxlength="4" min="0000" placeholder="Enter 4-digit pin" class="form-control"  name="dob" required/>
+                <input type="number" maxlength="4" min="0000" placeholder="Enter 4-digit pin" class="form-control"  name="pass" required/>
             </div>
 
 
             <div class="col-sm-12 my-3">
-                <button type="button" name="login" class="btn btn-flat" style="background-color: #1e6442;color: white;">Check My Details</button>
+                <button type="submit" name="login" class="btn btn-flat" style="background-color: #1e6442;color: white;">Check My Details</button>
             </div>
     </div>
 </form>
