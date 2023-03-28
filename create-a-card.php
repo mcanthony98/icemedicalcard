@@ -159,7 +159,7 @@ if(isset($_SESSION['iceid'])){
 
             <div class="offset-sm-3 col-sm-6 my-3 text-center">
               
-              <button  class="btn btn-flat btn-block final-button" style="background-color: #1e6442;color: white;">Continue to Payment</button><span class="final-message"></span>
+              <a href="payment.php"><button  class="btn btn-flat btn-block final-button" style="background-color: #1e6442;color: white;">Continue to Payment</button></a> <span class="final-message"></span>
           </div>
     </div>
 </div>
