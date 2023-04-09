@@ -151,7 +151,7 @@ $hrow = $hres->fetch_assoc();
   </div>
 
 
-    <div class="offset-sm-3 col-sm-8 text-center mt-5">
+    <div class="offset-sm-2 col-sm-8 text-center mt-5">
         <h4 class="mb-3">Make your Payment</h4>
         <p>Complete your application process with peace of mind! We offer secure PayPal payment for this final step, only <strong style="color:#1e6442;">&#163;10</strong> and get your <span style="background-color: #245639;color: white">ICEⒸ</span> Medical Card shipped to you.</p>
     </div>
@@ -221,7 +221,7 @@ $hrow = $hres->fetch_assoc();
 
 
 
-    <div class="offset-sm-3 col-sm-8 text-center mt-4 mb-4">
+    <div class="offset-sm-2 col-sm-8 text-center mt-4 mb-4">
     <div id="smart-button-container">
       <div style="text-align: center;">
         <div id="paypal-button-container"></div>
