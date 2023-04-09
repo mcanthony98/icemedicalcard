@@ -42,7 +42,7 @@ if(isset($_SESSION['iceid'])){
     </div>
   </div>
 <div id="startPoint" class="container row">
-      <div class="offset-sm-2 col-8 row mb-3 <?php if($session == 1){echo 'd-none';}?>" >
+      <div class="offset-sm-2 col-sm-8 row mb-3 <?php if($session == 1){echo 'd-none';}?>" >
           <div class="col-12 mt-3 mb-4">
         <form action="processes/processes.php" method="POST">
             <h3>Fill out your Application here to apply</h3></div>
@@ -73,7 +73,7 @@ if(isset($_SESSION['iceid'])){
         </div>
 
 
-        <div class="offset-sm-2 col-8 row mb-3 <?php if($session == 0){echo 'd-none';}?>">
+        <div class="offset-sm-2 col-sm-8 row mb-3 <?php if($session == 0){echo 'd-none';}?>">
 
 
             <div class="form-group col-sm-12 mb-3 medicals">
@@ -122,13 +122,13 @@ if(isset($_SESSION['iceid'])){
             </div>
 
             
-            <div class="col-12">
+            <div class="col-sm-12">
                 <hr class="my-2">
                 <h5 class="mt-2">Emergency Contacts</h5>
             </div>
 
 
-            <form class=" col-12 row medicalForm">
+            <form class=" col-sm-12 row medicalForm">
             <div class="form-group col-sm-1 pt-4"><p class="text-bold">1.</p></div>
             <div class="form-group col-sm-6">
                 <label><strong>Name</strong></label>

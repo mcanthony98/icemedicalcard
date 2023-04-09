@@ -10,7 +10,7 @@
     }
 
 
-if(isset($_POST['create-card'])){
+/*if(isset($_POST['create-card'])){
     $email = mysqli_real_escape_string($conn, $_POST["email"]);
     $fname = mysqli_real_escape_string($conn, $_POST["fname"]);
     $lname = mysqli_real_escape_string($conn, $_POST["lname"]);
@@ -64,12 +64,14 @@ if(isset($_POST['create-card'])){
 }
 
 
-elseif(isset($_POST['create-card-basic-info'])){
+else*/
+if(isset($_POST['create-card-basic-info'])){
     $email = mysqli_real_escape_string($conn, $_POST["email"]);
     $fname = mysqli_real_escape_string($conn, $_POST["fname"]);
     $lname = mysqli_real_escape_string($conn, $_POST["lname"]);
     $dob = mysqli_real_escape_string($conn, $_POST["dob"]);
     $set = "0123456789";
+    $set2 = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     $pin = substr(str_shuffle($set), 0, 4);
     $encpin = md5($pin);
 
@@ -82,6 +84,10 @@ elseif(isset($_POST['create-card-basic-info'])){
         $uqry = "INSERT INTO user (fname, lname, email, dob, pin, date_created) VALUES ('$fname', '$lname', '$email', '$dob', '$encpin', '$date')";
         $ures = $conn->query($uqry);
         $user_id = $conn->insert_id;
+        $code = substr(str_shuffle($set2), 0, 12).$user_id;
+
+        $codeqry = "UPDATE user SET user_code = '$code' WHERE user_id = '$user_id'";
+        $coderes = $conn->query($codeqry);
 
         $hqry = "INSERT INTO history (user_id) VALUES ('$user_id')";
         $hres = $conn->query($hqry);
@@ -104,7 +110,7 @@ elseif(isset($_POST['create-card-basic-info'])){
         </div>
         ';
 
-        mailling($email, $subject, $body);
+       mailling($email, $subject, $body);
 
         $_SESSION["iceid"] = $user_id;
 
@@ -113,7 +119,7 @@ elseif(isset($_POST['create-card-basic-info'])){
     header('location: ../create-a-card.php#startPoint');
     exit();
 
-
+   
 }
 
 elseif(isset($_POST['med'])){
@@ -217,5 +223,80 @@ elseif(isset($_POST['login'])){
     }
     exit();
 
+}
+
+elseif(isset($_POST["paymnt"])){
+    $arr = $_POST["paymnt"];
+    $output = [];
+
+    $desc = $arr['purchase_units'][0]['description'];
+    $tx_id = $arr['id'];
+    $amount_paid = $arr['purchase_units'][0]['amount']['value'];
+    
+    $shipping = $arr['purchase_units'][0]['shipping'];
+    $shippingName = $shipping['name']['full_name'];
+    $shippingAddress = $shipping['address'];
+    $address_line_1 = $shippingAddress['address_line_1'];
+    $admin_area_2 = $shippingAddress['admin_area_2'];
+    $admin_area_1 = $shippingAddress['admin_area_1'];
+    $postal_code = $shippingAddress['postal_code'];
+    $country_code = $shippingAddress['country_code'];
+
+    
+
+    $uqry = "SELECT * FROM user WHERE user_code = '$desc'";
+    $ures = $conn->query($uqry);
+    $urow = $ures->fetch_assoc();
+    $user_id = $urow['user_id'];
+    $email = $urow['email'];
+    $uname = $urow["fname"]. " " . $urow["lname"];
+
+    $ordqry = "INSERT INTO card_order (user_id, date_ordered) VALUES ('$user_id', '$date')";
+    $conn->query($ordqry);
+    $order_id = $conn->insert_id;
+
+    $payqry = "INSERT INTO payment (transaction_id, amount, order_id, date_created) VALUES ('$tx_id', '$amount_paid', '$order_id', '$date')";
+    $conn->query($payqry);
+
+    $addqry = "INSERT INTO delivery_address (order_id, name, address_line_1, admin_area_2, admin_area_1, postal_code, country_code) VALUES ('$order_id', '$shippingName', '$address_line_1', '$admin_area_2', '$admin_area_1', '$postal_code', '$country_code')";
+    $conn->query($addqry);
+
+
+    //Email to user
+    $subject = "Your ICE Medical Card is being processed.";
+    $body = '
+    <div style="margin-left: 50px;">
+        <h2 >Your application for ICE Medical Card has been received.</h2>
+        <p>Your card is being processed, and will be delivered to your address as soon as possible. </p>
+    
+        
+    </div>
+    ';
+
+   mailling($email, $subject, $body);
+
+   //Email to admin
+   $emailadmin = "anotherdayinnewyork@gmail.com";
+   $subjectadmin = "New ICE Medical Card Order";
+   $bodyadmin = '
+   <div style="margin-left: 50px;">
+       <h2 >New Card request</h2>
+       <p>A user has requested a card. </p>
+   
+       <p>To check the card details click the link below: </p>
+       <p><a href="https://ice.finytex.com/card-order.php?ord='.$order_id.'">Check Order Details</a></p>
+       <p>
+           Name: '.$uname.'  <br>
+           Email: '.$emailadmin.'
+       </p>
+   </div>
+   ';
+
+  mailling($emailadmin, $subjectadmin, $bodyadmin);
+
+    $output["id"] = "Success!";
+    echo json_encode($output);
+
+    //print_r ($arr);
 }
 ?>

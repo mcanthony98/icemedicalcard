@@ -1,16 +1,21 @@
 <?php 
 session_start();
 require "includes/connect.php";
-$_SESSION['card_create_success'] = "";
 
-if(!isset($_SESSION['iceid'])){
-  header ("Location: create-a-card.php");
+if(!isset($_GET['ord'])){
+  header ("Location: index.php");
 	exit ();
 }else{
-  $iceid = $_SESSION['iceid'];
+  $ord_id = $_GET['ord'];
 }
 
-$hqry = "SELECT * FROM user JOIN history ON user.user_id=history.user_id JOIN contacts ON user.user_id=contacts.user_id WHERE user.user_id = '$iceid'";
+$ordqry = "SELECT * FROM card_order JOIN payment ON payment.order_id=card_order.order_id JOIN delivery_address ON delivery_address.order_id=card_order.order_id WHERE card_order.order_id = '$ord_id'";
+$ordres = $conn->query($ordqry);
+$ordrow = $ordres->fetch_assoc();
+
+$u_id = $ordrow["user_id"];
+
+$hqry = "SELECT * FROM user JOIN history ON user.user_id=history.user_id JOIN contacts ON user.user_id=contacts.user_id WHERE user.user_id = '$u_id'";
 $hres = $conn->query($hqry);
 $hrow = $hres->fetch_assoc();
 
@@ -122,21 +127,8 @@ $hrow = $hres->fetch_assoc();
   <body>
 <main role="main">
 
-  <!-- Main jumbotron for a primary marketing message or call to action -->
-  <div class="jumbotron pb-1" style="background-image: linear-gradient(#0D190E, #1e6442);min-height: 365px;border-radius:0px;">
-   <div class="container row"  id="coverall">
-      <div class="col-sm-6 text-right" id="onleft">
-        <h1 class="text-bold text-white mt-2" style="font-size:40px;">ICE Medical Card</h1>
-        <p class="" style="color:rgb(228, 218, 206); font-size:18px">with purpose in mind</p>
-        <p><a class="btn bg-light" href="index.php" role="button">Home &laquo;</a></p>
-      </div>
-      <div class="col-sm-6 text-left"  id="onright">
-        <div class="mt-3 p-2 text-center" style="width:80%;border-style: solid; border-color:white; border-radius:15px; border-width: 23px 1px;min-height: 279px;" >
-            <span id="imgice" style="display:none;"><img src="icemedicalcard.png"  width="345px"></span>
-        </div>
-      </div>
-    </div>
-  </div>
+   <!-- Main jumbotron for a primary marketing message or call to action -->
+   <div class="jumbotron pb-1" style="background-image: linear-gradient(#0D190E, #1e6442);border-radius:0px; padding: 30px;"></div>
 
 <div class="container row">
     <?php if(isset($_SESSION['card_create_success'])){?>
@@ -151,9 +143,8 @@ $hrow = $hres->fetch_assoc();
   </div>
 
 
-    <div class="offset-sm-3 col-sm-8 text-center mt-5">
-        <h4 class="mb-3">Make your Payment</h4>
-        <p>Complete your application process with peace of mind! We offer secure PayPal payment for this final step, only <strong style="color:#1e6442;">&#163;10</strong> and get your <span style="background-color: #245639;color: white">ICEⒸ</span> Medical Card shipped to you.</p>
+    <div class="offset-sm-2 col-sm-8 text-center mt-5">
+        <h2 class="mb-3">ICE Medical Card Order</h2>
     </div>
 
 
@@ -165,13 +156,10 @@ $hrow = $hres->fetch_assoc();
       </div>
       <div class="icard-chip">
         <span class="">
-          <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://ice.finytex.com" width="65px">
+          <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://ice.finytex.com/medical-history.php?us=<?php echo $hrow['user_code'];?>" width="65px">
         </span>
       </div>
-      <div id="background">
-        <p id="bg-text">SAMPLE</p>
-      </div>
-
+      
       <div class="iouter">
       <div class='icard-title top-line-text'>
         <?php echo $hrow['fname'] . " " . $hrow['lname'] . " | " . date('d/m/Y', strtotime($hrow['date_created']));?>
@@ -221,62 +209,32 @@ $hrow = $hres->fetch_assoc();
 
 
 
-    <div class="offset-sm-3 col-sm-8 text-center mt-4 mb-4">
-    <div id="smart-button-container">
-      <div style="text-align: center;">
-        <div id="paypal-button-container"></div>
-      </div>
+    <div class="offset-sm-2 col-sm-8 text-center mt-4 mb-4">
+        <h3>Delivery Address</h3>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Address</th>
+                <th scope="col">Date Ordered</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                <th scope="row"><?php echo $ordrow['name'];?></th>
+                <td><?php echo $ordrow['address_line_1'] . " " . $ordrow['admin_area_2'] . " " . $ordrow['admin_area_1']. " ". $ordrow['postal_code'].", ". $ordrow['country_code'];?></td>
+                <td><?php echo date('d M Y H:i', strtotime($ordrow['date_created']));?></td>
+                </tr>
+            </tbody>
+        </table>
     </div>
-  <script src="https://www.paypal.com/sdk/js?client-id=AfldV8kUc8Yf2gk58z8h-OLxbWHhZgT20RlN-MZieGe7DGjUhIa6ZI16315erCes-FzfHRmuvRwNjaK5&enable-funding=venmo&currency=GBP" data-sdk-integration-source="button-factory"></script>
-  <script>
-    function initPayPalButton() {
-      paypal.Buttons({
-        style: {
-          shape: 'pill',
-          color: 'gold',
-          layout: 'horizontal',
-          label: 'checkout',
-          tagline: 'false',
-          
-        },
 
-        createOrder: function(data, actions) {
-          return actions.order.create({
-            purchase_units: [{"description":"<?php echo $hrow['user_code'];?>","amount":{"currency_code":"GBP","value":10}}]
-          });
-        },
-
-        onApprove: function(data, actions) {
-          return actions.order.capture().then(function(orderData) {
-            
-            // Full available details
-            console.log('Capture result', orderData, JSON.stringify(orderData, null, 2));
-
-            getPayDets(orderData);
-
-            // Show a success message within this page, e.g.
-            const element = document.getElementById('paypal-button-container');
-            element.innerHTML = '';
-            element.innerHTML = '<h3>Thank you for your payment!</h3>';
-
-            // Or go to another URL:  actions.redirect('thank_you.html');
-            
-          });
-        },
-
-        onError: function(err) {
-          console.log(err);
-        }
-      }).render('#paypal-button-container');
-    }
-    initPayPalButton();
-  </script>
+    <div class="offset-sm-2 col-sm-8 text-center mt-4 mb-4 py-3 bg-light">
+        <a href="print-card.php?ord=<?php echo $ord_id;?>" target="_blank" class="btn btn-success"><i class="fas fas-print"></i>Print Card</a>
     </div>
 </div>
 
-<p id="demo"></p>
-<hr/>
-<p id="demot"></p>
+
 
 <footer class="footer mt-auto py-3 text-right bg-light">
   <div class="container">
