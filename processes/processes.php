@@ -294,7 +294,7 @@ elseif(isset($_POST["paymnt"])){
 
   mailling($emailadmin, $subjectadmin, $bodyadmin);
 
-    $output["id"] = "Success!";
+    $output["id"] = "";
     echo json_encode($output);
 
     //print_r ($arr);

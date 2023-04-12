@@ -141,143 +141,20 @@ $hrow = $hres->fetch_assoc();
 <div class="container row">
     <?php if(isset($_SESSION['card_create_success'])){?>
     <div class="alert alert-success offset-sm-3 col-sm-8 mb-4" role="alert">
-        <h4 class="alert-heading">Success!</h4>
-        <p>Your Details have been submitted successfully.  </p>
+        <h4 class="alert-heading">Thank You! Payment Received!</h4>
+        <p>We're excited to inform you that your payment has been successfully received, and your order is being processed. Our team is diligently working to prepare your <b>ICE MEDICAL CARD</b> for shipment and ensure it's delivered to you as soon as possible.  </p>
         <hr> 
-        <p class="mb-0">Your ICE Medical Card is only one step away. Make your payment below to finish up.</p>
+        <p class="mt-2">
+            <a href="index.php" class="btn btn-flat" style="background-color: #1e6442;color: white;">Finish Process</a>
+        </p>
     </div>
     <?php unset($_SESSION['card_create_success']);} ?>
 
   </div>
 
 
-    <div class="offset-sm-2 col-sm-8 text-center mt-5">
-        <h4 class="mb-3">Make your Payment</h4>
-        <p>Complete your application process with peace of mind! We offer secure PayPal payment for this final step, only <strong style="color:#1e6442;">&#163;10</strong> and get your <span style="background-color: #245639;color: white">ICEⒸ</span> Medical Card shipped to you.</p>
-    </div>
-
-
-
-    <div class="offset-sm-4 float-center ibody iwatermark" align="center" >
-      <div class='icard ' >
-      <div class='itop-block'>
-        
-      </div>
-      <div class="icard-chip">
-        <span class="">
-          <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://ice.finytex.com" width="65px">
-        </span>
-      </div>
-      <div id="background">
-        <p id="bg-text">SAMPLE</p>
-      </div>
-
-      <div class="iouter">
-      <div class='icard-title top-line-text'>
-        <?php echo $hrow['fname'] . " " . $hrow['lname'] . " | " . date('d/m/Y', strtotime($hrow['date_created']));?>
-            <span class='icard-title-small-text'>
-              (dd/mm/yyyy)
-            </span>
-        </div>
-
-        
-        
-       <div class='imedical-description contacts-text'>
-        <?php echo $hrow['name'] . ": " . $hrow['phone'] . " | " . $hrow['name_two'] . ": " . $hrow['phone_two'];?>
-       </div>
-       
-
-        <div class='icard-title'>
-           Past Medical History
-        </div>
-        <div class='imedical-description'>
-          <?php echo $hrow['medical'];?>
-        </div>
-
-        <div class='icard-title'>
-            Past Surgical History
-         </div>
-         <div class='imedical-description'>
-          <?php echo $hrow['surgical'];?>
-         </div>
-
-         <div class='icard-title'>
-            Drug History
-         </div>
-         <div class='imedical-description'>
-          <?php echo $hrow['drug'];?>
-         </div>
-
-         <div class='icard-title ired-title'>
-            Allergies
-         </div>
-         <div class='imedical-description'>
-          <?php echo $hrow['allergy'];?>
-         </div>
-      </div>
-    </div>
-    </div>
-
-
-
-
-    <div class="offset-sm-2 col-sm-8 text-center mt-4 mb-4">
-    <div id="smart-button-container">
-      <div style="text-align: center;">
-        <div id="paypal-button-container"></div>
-      </div>
-    </div>
-  <script src="https://www.paypal.com/sdk/js?client-id=AfldV8kUc8Yf2gk58z8h-OLxbWHhZgT20RlN-MZieGe7DGjUhIa6ZI16315erCes-FzfHRmuvRwNjaK5&enable-funding=venmo&currency=GBP" data-sdk-integration-source="button-factory"></script>
-  <script>
-    function initPayPalButton() {
-      paypal.Buttons({
-        style: {
-          shape: 'pill',
-          color: 'gold',
-          layout: 'horizontal',
-          label: 'checkout',
-          tagline: 'false',
-          
-        },
-
-        createOrder: function(data, actions) {
-          return actions.order.create({
-            purchase_units: [{"description":"<?php echo $hrow['user_code'];?>","amount":{"currency_code":"GBP","value":10}}]
-          });
-        },
-
-        onApprove: function(data, actions) {
-          return actions.order.capture().then(function(orderData) {
-            
-            // Full available details
-            console.log('Capture result', orderData, JSON.stringify(orderData, null, 2));
-
-            getPayDets(orderData);
-
-            // Show a success message within this page, e.g.
-            const element = document.getElementById('paypal-button-container');
-            element.innerHTML = '';
-            element.innerHTML = '<h3>Thank you for your payment!</h3>';
-            actions.redirect('thank_you.php');
-
-            // Or go to another URL:  actions.redirect('thank_you.html');
-            
-          });
-        },
-
-        onError: function(err) {
-          console.log(err);
-        }
-      }).render('#paypal-button-container');
-    }
-    initPayPalButton();
-  </script>
-    </div>
 </div>
 
-<p id="demo"></p>
-<hr/>
-<p id="demot"></p>
 
 <footer class="footer mt-auto py-3 text-right bg-light">
   <div class="container">
