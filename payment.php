@@ -258,7 +258,7 @@ $hrow = $hres->fetch_assoc();
             const element = document.getElementById('paypal-button-container');
             element.innerHTML = '';
             element.innerHTML = '<h3>Thank you for your payment!</h3>';
-            actions.redirect('thank_you.php');
+            
 
             // Or go to another URL:  actions.redirect('thank_you.html');
             
@@ -318,7 +318,8 @@ $(document).ready(function(){
         dataType: 'json',
         success:function(data){  
             //$('#showtopinfo').html(data);  
-            document.getElementById("demot").innerHTML = JSON.stringify(data.id);
+            //document.getElementById("demot").innerHTML = JSON.stringify(data.id);
+            window.location.replace("thank_you.php");
         }  
       });
     }
