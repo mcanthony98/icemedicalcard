@@ -94,7 +94,8 @@ include "includes/sidebar.php";
                                 <thead>
                                     <tr class="text-center">
                                     <th colspan = "3">Payment</th>
-                                    <th colspan = "3">Billing Information</th>
+                                    <th colspan = "2">Billing Information</th>
+                                    <th ></th>
                                     <th ></th>
                                     </tr>
                                     <tr>
@@ -108,7 +109,12 @@ include "includes/sidebar.php";
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php while($ordrow = $ordres->fetch_assoc()){
+                                    <?php 
+                                    if($ordres->num_rows == 0){
+                                        echo '<tr><td class="text-center" colspan="7">No orders made yet!</td></tr>';
+
+                                    }
+                                    while($ordrow = $ordres->fetch_assoc()){
                                         if($ordrow['order_status'] == 0){
                                             $order_status = "<span class='text-danger'>Pending Printing</span>";
                                         }elseif($ordrow['order_status'] == 1){
