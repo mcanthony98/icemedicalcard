@@ -94,7 +94,7 @@ include "includes/sidebar.php";
                                 <thead>
                                     <tr class="text-center">
                                     <th colspan = "3">Payment</th>
-                                    <th colspan = "2">Billing Information</th>
+                                    <th colspan = "3">Billing Information</th>
                                     <th ></th>
                                     </tr>
                                     <tr>
@@ -104,6 +104,7 @@ include "includes/sidebar.php";
                                     <th scope="col">Name</th>
                                     <th scope="col">Address</th>
                                     <th scope="col">Status</th>
+                                    <th scope="col"></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -123,6 +124,7 @@ include "includes/sidebar.php";
                                     <td scope="row"><?php echo $ordrow['name'];?></td>
                                     <td><?php echo $ordrow['address_line_1'] . " " . $ordrow['admin_area_2'] . " " . $ordrow['admin_area_1']. " ". $ordrow['postal_code'].", ". $ordrow['country_code'];?></td>
                                     <td scope="row"><?php echo $order_status;?></td>
+                                    <td scope="row"><a class="btn btn-sm bg-olive viewuser" href="card-order.php?ord=<?php echo $ordrow['order_id'];?>" ><i class="fas fa-eye"></i> </a></td>
                                     </tr>
                                     <?php } ?>
                                 </tbody>
