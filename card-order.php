@@ -28,6 +28,10 @@ $hrow = $hres->fetch_assoc();
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>ICE</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+
+<link rel="icon" href="icon.png" sizes="32x32" />
+<link rel="icon" href="icon2.png" sizes="192x192" />
+<link rel="apple-touch-icon" href="icon3.png" />
     <style>
   
  .ibody{

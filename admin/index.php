@@ -18,6 +18,9 @@ session_start();
   <link rel="stylesheet" href="../dist/css/adminlte.min.css">
   <!-- Toastr -->
   <link rel="stylesheet" href="../plugins/toastr/toastr.min.css">
+  <link rel="icon" href="../icon.png" sizes="32x32" />
+  <link rel="icon" href="../icon2.png" sizes="192x192" />
+  <link rel="apple-touch-icon" href="../icon3.png" />
 
 </head>
 <body class="hold-transition login-page">

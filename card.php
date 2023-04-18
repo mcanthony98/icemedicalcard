@@ -1,7 +1,9 @@
 <head>
   <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
 <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
-
+<link rel="icon" href="icon.png" sizes="32x32" />
+<link rel="icon" href="icon2.png" sizes="192x192" />
+<link rel="apple-touch-icon" href="icon3.png" />
 <style>
     body{
     font-family:Roboto;

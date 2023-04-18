@@ -36,6 +36,10 @@ session_start();
   <!-- fullCalendar -->
   <link rel="stylesheet" href="../plugins/fullcalendar/main.css">
 
+<link rel="icon" href="../icon.png" sizes="32x32" />
+<link rel="icon" href="../icon2.png" sizes="192x192" />
+<link rel="apple-touch-icon" href="../icon3.png" />
+
   <style>
   
  .ibody{
