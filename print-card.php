@@ -30,39 +30,44 @@ $hrow = $hres->fetch_assoc();
     font-family:Roboto;
 }
 .icard{
-  height: 310px;
-  width: 500px;
+  height: 290px;
+  width: 380px;
   background-image: white;
   border-radius: 20px;
   color:black;
   margin:0px;
-  font-size: 16px;
+  font-size: 10px;
   box-shadow: 2px 2px 20px #707070;
 }
 .itop-block{
   display: inline-block;
-  width:400px;
+  width:250px;
 }
 .icard-name{
   float:left;
   margin:18px 0px 10px 18px;
-  font-size: 20px;
+  font-size: 15px;
   font-weight:550;
 }
 .icard-title{
   float:left;
   width: 100%;
   position:relative;
-  font-size: 15px;
+  font-size: 10px;
   font-weight:550;
+  margin-bottom: 0px;
+  margin-top: 4px;
+  padding-bottom: 0px;
+  line-height: 10px;
 }
 .icard-title-small-text{
-  font-size: 12px;
+  font-size: 7px;
   font-weight:400;
   color:#707070;
+  margin-bottom: 3px;
 }
 .iouter{
-    margin: 20px;
+    margin: 20px 0px;
     position: absolute;
     z-index: 1;
 }
@@ -70,13 +75,15 @@ $hrow = $hres->fetch_assoc();
   float:left;
   position:relative;
   padding: 0px 0px;
-  font-size: 15px;
+  font-size: 10px;
   font-weight:450;
   color:#313030;
   word-wrap: normal;
   word-break: break-word;
   max-width: 460px;
   min-height: 30px;
+  line-height: 15px;
+  margin-bottom:5px;
 }
 .ired-title{
     color: red;
@@ -87,10 +94,10 @@ $hrow = $hres->fetch_assoc();
   z-index: 2;
 }
 .top-line-text{
-  font-size: large;
+  font-size: medium;
 }
 .contacts-text{
-  font-size: 13px;
+  font-size: 9px;
   color: #707070;
   margin-bottom: 7px;
   min-height: 0px;
@@ -106,7 +113,7 @@ $hrow = $hres->fetch_assoc();
     </div>
     <div class="icard-chip">
       <span class="">
-        <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://ice.finytex.com/medical-history.php?us=<?php echo $hrow['user_code'];?>" width="65px">
+        <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://ice.finytex.com/medical-history.php?us=<?php echo $hrow['user_code'];?>" width="55px">
       </span>
     </div>
     <div class="iouter">
